@@ -13,4 +13,4 @@ docs/
 # Dotenv file
 .env
 
-.cache
+.cache/**
