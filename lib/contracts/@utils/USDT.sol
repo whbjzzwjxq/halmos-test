@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract USDC_e is Context, IERC20, Ownable {
+contract USDT is Context, IERC20, Ownable {
   using SafeMath for uint256;
 
   mapping (address => uint256) private _balances;
@@ -19,9 +19,9 @@ contract USDC_e is Context, IERC20, Ownable {
   string public _name;
 
   constructor() {
-    _name = "USD Coin";
-    _symbol = "USDC.e";
-    _decimals = 6;
+    _name = "Tether USD";
+    _symbol = "USDT";
+    _decimals = 18;
     _totalSupply = 30000000000000000000000000;
     _balances[msg.sender] = _totalSupply;
 
@@ -116,7 +116,7 @@ contract USDC_e is Context, IERC20, Ownable {
    */
   function transferFrom(address sender, address recipient, uint256 amount) external returns (bool) {
     _transfer(sender, recipient, amount);
-    _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "Error: transfer amount exceeds allowance"));
+    _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "BEP20: transfer amount exceeds allowance"));
     return true;
   }
 
@@ -152,7 +152,7 @@ contract USDC_e is Context, IERC20, Ownable {
    * `subtractedValue`.
    */
   function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
-    _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "Error: decreased allowance below zero"));
+    _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "BEP20: decreased allowance below zero"));
     return true;
   }
 
@@ -192,10 +192,10 @@ contract USDC_e is Context, IERC20, Ownable {
    * - `sender` must have a balance of at least `amount`.
    */
   function _transfer(address sender, address recipient, uint256 amount) internal {
-    require(sender != address(0), "Error: transfer from the zero address");
-    require(recipient != address(0), "Error: transfer to the zero address");
+    require(sender != address(0), "BEP20: transfer from the zero address");
+    require(recipient != address(0), "BEP20: transfer to the zero address");
 
-    _balances[sender] = _balances[sender].sub(amount, "Error: transfer amount exceeds balance");
+    _balances[sender] = _balances[sender].sub(amount, "BEP20: transfer amount exceeds balance");
     _balances[recipient] = _balances[recipient].add(amount);
     emit Transfer(sender, recipient, amount);
   }
@@ -210,7 +210,7 @@ contract USDC_e is Context, IERC20, Ownable {
    * - `to` cannot be the zero address.
    */
   function _mint(address account, uint256 amount) internal {
-    require(account != address(0), "Error: mint to the zero address");
+    require(account != address(0), "BEP20: mint to the zero address");
 
     _totalSupply = _totalSupply.add(amount);
     _balances[account] = _balances[account].add(amount);
@@ -229,9 +229,9 @@ contract USDC_e is Context, IERC20, Ownable {
    * - `account` must have at least `amount` tokens.
    */
   function _burn(address account, uint256 amount) internal {
-    require(account != address(0), "Error: burn from the zero address");
+    require(account != address(0), "BEP20: burn from the zero address");
 
-    _balances[account] = _balances[account].sub(amount, "Error: burn amount exceeds balance");
+    _balances[account] = _balances[account].sub(amount, "BEP20: burn amount exceeds balance");
     _totalSupply = _totalSupply.sub(amount);
     emit Transfer(account, address(0), amount);
   }
@@ -250,8 +250,8 @@ contract USDC_e is Context, IERC20, Ownable {
    * - `spender` cannot be the zero address.
    */
   function _approve(address owner, address spender, uint256 amount) internal {
-    require(owner != address(0), "Error: approve from the zero address");
-    require(spender != address(0), "Error: approve to the zero address");
+    require(owner != address(0), "BEP20: approve from the zero address");
+    require(spender != address(0), "BEP20: approve to the zero address");
 
     _allowances[owner][spender] = amount;
     emit Approval(owner, spender, amount);
@@ -265,6 +265,6 @@ contract USDC_e is Context, IERC20, Ownable {
    */
   function _burnFrom(address account, uint256 amount) internal {
     _burn(account, amount);
-    _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount, "Error: burn amount exceeds allowance"));
+    _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount, "BEP20: burn amount exceeds allowance"));
   }
 }

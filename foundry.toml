@@ -1,6 +1,18 @@
 [profile.default]
-src = "src"
+src = "benchmarks"
 out = ".cache"
 libs = ["lib"]
+gas_limit = 9223372036854775807
+gas_price = 0
+rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", optimism = "https://opt-mainnet.g.alchemy.com/v2/demo", fantom = "https://rpc.ankr.com/fantom", arbitrum = "https://rpc.ankr.com/arbitrum", bsc = "https://rpc.ankr.com/bsc", moonriver = "https://moonriver.public.blastapi.io", gnosis = "https://rpc.ankr.com/gnosis", Avalanche = "https://rpc.ankr.com/avalanche", polygon = "https://rpc.ankr.com/polygon", celo = "https://rpc.ankr.com/celo", Base = "https://developer-access-mainnet.base.org" }
+
+[fuzz]
+runs = 4294967295
+seed = '0x20221001'
+
+[invariant]
+runs = 5000000
+depth = 10
+fail_on_revert = false
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
