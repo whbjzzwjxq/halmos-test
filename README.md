@@ -1,3 +1,6 @@
+# This codebase is only allowed to be used by the developer team of Halmos.
+# Don't copy this code/idea to be used in academia/industry artifacts without permission.
+
 # Cache folder:
 ```bash
 mkdir .cache
